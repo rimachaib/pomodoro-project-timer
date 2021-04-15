@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import useInterval from "../utils/useInterval";
 import FocusBreakDuration from "../FocusBreakDuration";
 import TimerControls from "../TimerControls";
+import FocusBreakMessage from "../FocusBreakMessage";
 import ProgressBar from "../ProgressBar";
-import { minutesToDuration } from "../utils/duration";
-import { secondsToDuration } from "../utils/duration";
 
 function Pomodoro() {
 	const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -118,25 +117,14 @@ function Pomodoro() {
 				isTimerRunning={isTimerRunning}
 				stopButton={stopButton}
 			/>
-			{/*-----Focus/Break Message-----*/}
-			<div>
-				<div className="row mb-2">
-					<div className="col">
-						<h2 data-testid="session-title">
-							{!onBreak ? "Focusing" : "On Break"} for{" "}
-							{!onBreak
-								? minutesToDuration(initialDuration)
-								: minutesToDuration(initialBreakDuration)}{" "}
-							minutes
-						</h2>
-						<p className="lead" data-testid="session-sub-title">
-							{" "}
-							{secondsToDuration(durationMinutes * 60 + durationSeconds)} remaining
-						</p>
-						{!isTimerRunning ? <h2>PAUSED</h2> : null}
-					</div>
-				</div>
-			</div>
+			<FocusBreakMessage
+				onBreak={onBreak}
+				initialDuration={initialDuration}
+				initialBreakDuration={initialBreakDuration}
+				durationMinutes={durationMinutes}
+				durationSeconds={durationSeconds}
+				isTimerRunning={isTimerRunning}
+			/>
 			<ProgressBar durationProgress={durationProgress} />
 		</div>
 	);
